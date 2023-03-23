@@ -47,7 +47,8 @@ class NavBarTitle extends StatelessWidget{//main class defining order from top t
 void main(){
   runApp(const MaterialApp(
     title: 'Nav Bar Demo App',
-    home: SafeArea(
+    home: SafeArea(//SafeArea is a widget in the Flutter framework that insets its child by sufficient padding to avoid the device's system UI elements, such as the status bar or notch, 
+    //from overlapping the child. This helps to ensure that the child content is fully visible and not obscured by the system UI.
       child: NavBarTitle()),
   ));
 }
