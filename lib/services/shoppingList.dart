@@ -49,17 +49,59 @@ class ShoppingListItem extends StatelessWidget{
   }
 }
 
+class ShoppingList extends StatefulWidget{
+  const ShoppingList({required this.products, super.key});
+
+  final List<Product> products;
+
+  @override
+  State<ShoppingList> createState() => _ShoppingListState();
+}
+
+class _ShoppingListState extends State<ShoppingList>{
+  final _shoppingCart = <Product>{};
+
+  void _handleCartChanged(Product product, bool inCart){
+    setState((){
+      if(!inCart){
+        _shoppingCart.add(product);
+      }else{
+        _shoppingCart.remove(product);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Shopping List'),
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        children: widget.products.map((product){
+          return ShoppingListItem(
+            product: product,
+            inCart: _shoppingCart.contains(product),
+            onCartChanged: _handleCartChanged,
+          );
+        }).toList(),
+      ),
+    );
+  }
+}
+
 void main(){
   runApp(
-    MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: ShoppingListItem(
-            product: const Product(name: 'Chips'),
-            inCart: true,
-            onCartChanged: (product, inCart){},
-          ),
-        ),
+    const MaterialApp(
+      title: 'Shopping App',
+      home: ShoppingList(
+        products: [
+          Product(name: 'Bread'),
+          Product(name: 'Butter'),
+          Product(name: 'Milk'),
+          Product(name: 'Cereal'),
+        ],
       ),
     ),
   );
